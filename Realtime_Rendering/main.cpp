@@ -15,7 +15,7 @@ glm::mat4 LookAt(glm::vec3 campos, glm::vec3 look, glm::vec3 up) {
 	rotate = glm::transpose(rotate);
 
 	glm::mat4 transfer(1.0f);
-	glm::translate(transfer, glm::vec3(5, 5, 5));
+	transfer = glm::translate(transfer, -glm::vec3(5, 5, 5));
 
 	glm::mat4 result = (rotate * transfer);
 	//glm::transpose(result);
