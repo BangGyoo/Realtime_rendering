@@ -1,5 +1,5 @@
 
-#version 450
+#version 430
 /*
 1.Create shader object
 2.Specify shader file names

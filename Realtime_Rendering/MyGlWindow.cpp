@@ -16,7 +16,12 @@ MyGlWindow::~MyGlWindow() {
 
 }
 void MyGlWindow::draw() {
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0);
+	static float x=0;
+	if (x < 1.0f) {
+		glClearColor(x, x, x, 1.0);
+		x += 0.001f;
+	}
+	else x = 0;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// 버퍼 클리어
 								// 컬러버퍼는 버퍼는 2차원 머리(?) 800 * 800 컬러는 셀하나 컬러저장
 								// 마스킹 버퍼도 있지만 잘 사용하진 않는다.
