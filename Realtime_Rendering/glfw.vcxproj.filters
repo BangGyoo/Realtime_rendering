@@ -21,12 +21,18 @@
     <ClCompile Include="MyGlWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ColorCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyGlWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

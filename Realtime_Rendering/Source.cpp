@@ -19,6 +19,8 @@ static void window_resize_callback(GLFWwindow * window, int width, int height) {
 
 }
 
+
+
 // ★★ glfw 먼저 glew 나중에 초기화 필수 ★★
 // 쉐이더의 변수들을 공유하기 위해서 in/ out을 사용하고
 // 버텍스와 플래그먼트 쉐이더는 필수 다른건 option

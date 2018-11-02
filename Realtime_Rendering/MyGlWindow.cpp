@@ -2,14 +2,18 @@
 #include "MyGlWindow.h"
 
 ShaderProgram *shaderProgram;
-GLuint vao;
-GLuint vboPosition,vboColor;
+
+void MyGlWindow::initialize()
+{
+	m_cube = new ColorCube();
+}
 
 MyGlWindow::MyGlWindow(int w, int h)
 {
 	m_width = w;
 	m_height = h;
 
+	initialize();
 	setupBuffer();
 }
 MyGlWindow::~MyGlWindow() {
@@ -31,11 +35,11 @@ void MyGlWindow::draw() {
 	glViewport(0, 0, m_width, m_height);	// 좌하단으로 그림 , 이유는 모름 ㅋ
 	// 쉐이더 호출해서 사용
 	shaderProgram->use();
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);	// GL_TRIANGLES / GL_LINES / GL_POINTS 세개있다.
 										// triangle쓰면 마지막 버텍스와 첫번째 이어준다!
 										// GL_TRIANGLES로 하면 사각형 그릴때 2개의 삼각형 6개의 vertex를 지정해야함
 										// GL_STRIP는 자동으로 이어준다. 4개의 vertex만 줘도 됨
+	
+	if (m_cube) m_cube->draw();
 	shaderProgram->disable();
 
 }								
@@ -43,51 +47,7 @@ void MyGlWindow::setupBuffer() {
 	shaderProgram = new ShaderProgram();
 	shaderProgram->initFromFiles("simple.vert", "simple.frag");
 	
-	const float vertexPosition[] = {
-		-0.2f, -0.2f, 0, 1.0f,
-		0, 0.2f, 0, 1.0f,
-		0.2f, -0.2f, 0, 1.0f			// vector는 0, 동차좌표계는 1
-	};
-	const float vertexColor[] = {
-		1,0,0,
-		0,1,0,
-		0,0,1
-	};
-	
-	glGenVertexArrays(1, &vao);	// 일반적 c의 배열 사용해도 ㄱㅊㄱㅊ
-	glBindVertexArray(vao);		// bind란 뭘까. Activate 혹은 나는 여기에 무언가를 할래.
-	//vbo 생성
-	glGenBuffers(1, &vboPosition);
-	glBindBuffer(GL_ARRAY_BUFFER, vboPosition);	// vbo binding
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*4*3,vertexPosition,GL_STATIC_DRAW);
-
-
-	glVertexAttribPointer(
-		0,		// attrib 번호 (0,1,....)
-		4,		// 한 vertex당 사용한 값의 수
-		GL_FLOAT,			// type
-		GL_FALSE,			// normalize 되어있는지 확인
-		0,					// stride : 한vertex사이에 갭이 있는지 확인
-		0					// offset : 시작 포인터로부터의 갭
-		);
-	glEnableVertexAttribArray(0);			// vbo 종료
-												// 이 함수 쓰면 GPU에서 잡히게 된다. 한번 넣어주면 변하지x
-												// 어지간한 것들은 static 써도 무방
-	glGenBuffers(1, &vboColor);
-	glBindBuffer(GL_ARRAY_BUFFER, vboColor);	// vbo binding
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*3, vertexColor, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(
-		1,		// attrib 번호 (0,1,....)
-		3,		// 한 vertex당 사용한 값의 수
-		GL_FLOAT,			// type
-		GL_FALSE,			// normalize 되어있는지 확인
-		0,					// stride : 한vertex사이에 갭이 있는지 확인
-		0					// offset : 시작 포인터로부터의 갭
-	);
-	glEnableVertexAttribArray(1);			// vbo 종료
-
-	glBindVertexArray(0);		// vao종료, 해당 함수에 0을 넣으면 종료 unbind 된다.
+	m_cube->setup();
 	//
 	//glGenVertexArrays(1, &vao);
 	//glBindVertexArray(vao);

@@ -5,6 +5,7 @@
 #include "GL/glew.h"
 #include <string>
 #include "Loader.h"
+#include "ColorCube.h"
 
 
 class MyGlWindow {
@@ -15,7 +16,8 @@ public:
 public:
 	int m_width;
 	int m_height;
+	ColorCube *m_cube;
 
 	void setupBuffer();
-	
+	void initialize();
 };

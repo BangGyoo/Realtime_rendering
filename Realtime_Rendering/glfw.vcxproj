@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ColorCube.cpp" />
     <ClCompile Include="MyGlWindow.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColorCube.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="MyGlWindow.h" />
   </ItemGroup>
