@@ -3,6 +3,20 @@
 
 ShaderProgram *shaderProgram;
 
+static float DEFAULT_VIEW_POINT[3] = { 5, 5, 5 };
+static float DEFAULT_VIEW_CENTER[3] = { 0, 0, 0 };
+static float DEFAULT_UP_VECTOR[3] = { 0, 1, 0 };
+
+glm::mat4 perspective(float fovy, float aspect, float near, float far) {
+
+	glm::mat4 result(
+		1.0 / (aspect*tan(glm::radians(fovy / 2))), 0, 0, 0,
+		0, 1.0 / tan(glm::radians(fovy / 2)), 0, 0,
+		0, 0, -((far + near) / (far - near)), -1,
+		0, 0, -((2 * far * near) / (far - near)), 0);
+	return result;
+}
+
 void MyGlWindow::initialize()
 {
 	m_cube = new ColorCube();
@@ -12,6 +26,17 @@ MyGlWindow::MyGlWindow(int w, int h)
 {
 	m_width = w;
 	m_height = h;
+	m_cube = NULL;
+
+	glm::vec3 viewPoint(DEFAULT_VIEW_POINT[0], DEFAULT_VIEW_POINT[1], DEFAULT_VIEW_POINT[2]);
+	glm::vec3 viewCenter(DEFAULT_VIEW_CENTER[0], DEFAULT_VIEW_CENTER[1], DEFAULT_VIEW_CENTER[2]);
+	glm::vec3 upVector(DEFAULT_UP_VECTOR[0], DEFAULT_UP_VECTOR[1], DEFAULT_UP_VECTOR[2]);
+	
+
+	float aspect = (w / (float)h);
+	m_viewer = new Viewer(viewPoint, viewCenter, upVector, 60.0f, aspect);
+
+
 
 	initialize();
 	setupBuffer();
@@ -20,6 +45,16 @@ MyGlWindow::~MyGlWindow() {
 
 }
 void MyGlWindow::draw() {
+	glm::vec3 eye = m_viewer->getViewPoint();
+	glm::vec3 look = m_viewer->getViewCenter();
+	glm::vec3 up = m_viewer->getUpVector();
+	glm::mat4 view = glm::lookAt(eye, look, up);
+
+
+	glm::mat4 projection = perspective(m_viewer->getFieldOfView(),
+		m_viewer->getAspectRatio(), 0.01f, 50.0f);  //projection matrix
+	glm::mat4 model(1.0);
+
 	static float x=0;
 	if (x < 1.0f) {
 		glClearColor(x, x, x, 1.0);
@@ -38,55 +73,31 @@ void MyGlWindow::draw() {
 										// triangle쓰면 마지막 버텍스와 첫번째 이어준다!
 										// GL_TRIANGLES로 하면 사각형 그릴때 2개의 삼각형 6개의 vertex를 지정해야함
 										// GL_STRIP는 자동으로 이어준다. 4개의 vertex만 줘도 됨
+
+
+	
+
+	mvp = projection * view * model;
+
+	glUniformMatrix4fv(shaderProgram->uniform("mvp"),
+		1, GL_FALSE, glm::value_ptr(mvp));
 	
 	if (m_cube) m_cube->draw();
 	shaderProgram->disable();
 
-}								
+}					
+
+
 void MyGlWindow::setupBuffer() {		
+
 	shaderProgram = new ShaderProgram();
 	shaderProgram->initFromFiles("simple.vert", "simple.frag");
 	
+	
+	shaderProgram->addUniform("mvp");
+	
+
 	m_cube->setup();
-	//
-	//glGenVertexArrays(1, &vao);
-	//glBindVertexArray(vao);
-
-	//struct vertexAttr {
-	//	GLfloat posX, posY, posZ;
-	//	GLfloat r, g, b;
-	//};
-	//
-	//vertexAttr * verts = new vertexAttr[3];
-	//verts[0].posX = -0.2f; verts[0].posY = -0.2f; verts[0].posZ = 0.0f;
-	//verts[0].r = 1; verts[0].g = 0; verts[0].b = 0;
-	//verts[1].posX = 0.0f; verts[1].posY = 0.2f; verts[1].posZ = 0.0f;
-	//verts[1].r = 0; verts[1].g = 1; verts[1].b = 0;
-	//verts[2].posX = 0.2f; verts[2].posY = -0.2f; verts[2].posZ = 0.0f;
-	//verts[2].r = 0; verts[2].g = 0; verts[2].b = 1;
-
-	//glGenBuffers(1, &vbo);
-	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertexAttr) * 3, verts, GL_STATIC_DRAW);
-	//glVertexAttribPointer(
-	//	0,
-	//	3,
-	//	GL_FLOAT,
-	//	GL_FALSE,
-	//	sizeof(vertexAttr),
-	//	(void *)0			// starting
-	//);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(
-	//	1,
-	//	3,
-	//	GL_FLOAT,
-	//	GL_FALSE,
-	//	sizeof(vertexAttr),
-	//	(void *)(sizeof(float)*3)			// starting
-	//);
-	//glEnableVertexAttribArray(1);
-	//
-	//glBindVertexArray(0);
+	
 }
 

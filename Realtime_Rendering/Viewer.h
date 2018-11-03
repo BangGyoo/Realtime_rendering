@@ -128,7 +128,6 @@ class Viewer {
 		void setZoomFraction(float zoomFraction);
 		/** Set up the roation speed */
 		void setRotateSpeed(float rotateSpeed);
-
 	private:
 
 		glm::vec3 m_viewPoint;

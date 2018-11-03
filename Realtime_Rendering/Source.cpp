@@ -4,6 +4,12 @@
 #include <GLFW/glfw3.h>
 
 MyGlWindow *win;
+bool lbutton_down;
+bool rbutton_down;
+bool mbutton_down;
+double m_lastMouseX;
+double m_lastMouseY;
+double cx, cy;
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -18,8 +24,65 @@ static void window_resize_callback(GLFWwindow * window, int width, int height) {
 
 
 }
+static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	cx = xpos;
+	cy = ypos;
+}
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS) {
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		m_lastMouseX = xpos;
+		m_lastMouseY = ypos;
+	}
+
+	if (button == GLFW_MOUSE_BUTTON_LEFT) {
+		if (GLFW_PRESS == action)
+			lbutton_down = true;
+		else if (GLFW_RELEASE == action)
+			lbutton_down = false;
+	}
+
+	else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+		if (GLFW_PRESS == action)
+			rbutton_down = true;
+		else if (GLFW_RELEASE == action)
+			rbutton_down = false;
+	}
+
+	else if (button == GLFW_MOUSE_BUTTON_MIDDLE) {
+
+		if (GLFW_PRESS == action)
+			mbutton_down = true;
+		else if (GLFW_RELEASE == action)
+			mbutton_down = false;
+		
+	}
+}
+void mouseDragging(double width, double height)
+{
 
 
+	if (lbutton_down) {
+		float fractionChangeX = static_cast<float>(cx - m_lastMouseX) / static_cast<float>(width);
+		float fractionChangeY = static_cast<float>(m_lastMouseY - cy) / static_cast<float>(height);
+		win->m_viewer->rotate(fractionChangeX, fractionChangeY);
+	}
+	else if (mbutton_down) {
+		float fractionChangeX = static_cast<float>(cx - m_lastMouseX) / static_cast<float>(width);
+		float fractionChangeY = static_cast<float>(m_lastMouseY - cy) / static_cast<float>(height);
+		win->m_viewer->zoom(fractionChangeY);
+	}
+	else if (rbutton_down) {
+		float fractionChangeX = static_cast<float>(cx - m_lastMouseX) / static_cast<float>(width);
+		float fractionChangeY = static_cast<float>(m_lastMouseY - cy) / static_cast<float>(height);
+		win->m_viewer->translate(-fractionChangeX, -fractionChangeY, 1);
+	}
+	m_lastMouseX = cx;
+	m_lastMouseY = cy;
+}
 
 // ★★ glfw 먼저 glew 나중에 초기화 필수 ★★
 // 쉐이더의 변수들을 공유하기 위해서 in/ out을 사용하고
@@ -67,16 +130,23 @@ int main()
 
 	glfwSwapInterval(1);	//vsync. v싱크 만들어주는거 아무튼 좋음
 
-	printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+	if (GL_VERSION != 0x1F02) {
+		printf("not same version");
+	}
+	else printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 	// 가급적이면 printf 쓰지마라 속도 犬느림
 
-	glfwSetKeyCallback(window, key_callback);  //등록
 	glfwSetWindowSizeCallback(window, window_resize_callback);  //등록
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetCursorPosCallback(window, cursor_pos_callback);
+	glfwSetKeyCallback(window, key_callback);
+	
 
 	//window_resize_callback(window, width, height);
 	glfwSetWindowTitle(window, u8"나의 openGL윈도우");
 	
 	win = new MyGlWindow(width,height);
+	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window))
 	{     //////////////////////////////
@@ -92,7 +162,7 @@ int main()
 		/* Poll for and process events */
 		glfwPollEvents();
 
-
+		mouseDragging(win->m_width, win->m_height);
 
 	}
 
