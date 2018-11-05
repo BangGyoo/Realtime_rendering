@@ -1,8 +1,12 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include <iostream>
-#include "GL/glew.h"
 #include <string>
+#include <vector>
+#include "glm/gtx/string_cast.hpp"
 #include "Loader.h"
+#include "glm/glm.hpp"
+#include "GL/glew.h"
 
 class ColorCube
 {

@@ -20,6 +20,7 @@ glm::mat4 perspective(float fovy, float aspect, float near, float far) {
 void MyGlWindow::initialize()
 {
 	m_cube = new ColorCube();
+	m_checkeredFloor = new checkeredFloor(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(1.0f, 1.0f, 1.0f),-1.0f);
 }
 
 MyGlWindow::MyGlWindow(int w, int h)
@@ -74,7 +75,7 @@ void MyGlWindow::draw() {
 										// GL_TRIANGLES로 하면 사각형 그릴때 2개의 삼각형 6개의 vertex를 지정해야함
 										// GL_STRIP는 자동으로 이어준다. 4개의 vertex만 줘도 됨
 
-
+	
 	
 
 	mvp = projection * view * model;
@@ -82,9 +83,14 @@ void MyGlWindow::draw() {
 	glUniformMatrix4fv(shaderProgram->uniform("mvp"),
 		1, GL_FALSE, glm::value_ptr(mvp));
 	
+	if (m_checkeredFloor) m_checkeredFloor->draw();
 	if (m_cube) m_cube->draw();
+	
 	shaderProgram->disable();
 
+	
+	
+	
 }					
 
 
@@ -98,6 +104,7 @@ void MyGlWindow::setupBuffer() {
 	
 
 	m_cube->setup();
+	m_checkeredFloor->setup();
 	
 }
 

@@ -1,3 +1,4 @@
+#pragma once
 
 /*author: r3dux
 version : 0.3 - 15 / 01 / 2014
