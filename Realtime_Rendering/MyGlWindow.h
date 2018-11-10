@@ -7,6 +7,7 @@
 #include "Loader.h"
 #include "ColorCube.h"
 #include "checkeredFloor.h"
+#include "Object.h"
 #include "Viewer.h"
 #include "glm/gtc/type_ptr.hpp"
 
@@ -22,6 +23,7 @@ public:
 	int m_height;
 	ColorCube *m_cube;
 	checkeredFloor *m_checkeredFloor;
+	Object *m_object;
 	Viewer *m_viewer;
 	glm::mat4 mvp;
 	void setupBuffer();

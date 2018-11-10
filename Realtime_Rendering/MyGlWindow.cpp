@@ -21,6 +21,7 @@ void MyGlWindow::initialize()
 {
 	m_cube = new ColorCube();
 	m_checkeredFloor = new checkeredFloor(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(1.0f, 1.0f, 1.0f),-1.0f);
+	m_object = new Object("teapot.obj");
 }
 
 MyGlWindow::MyGlWindow(int w, int h)
@@ -85,6 +86,7 @@ void MyGlWindow::draw() {
 	
 	if (m_checkeredFloor) m_checkeredFloor->draw();
 	if (m_cube) m_cube->draw();
+	if (m_object) m_object->draw();
 	
 	shaderProgram->disable();
 
@@ -105,6 +107,7 @@ void MyGlWindow::setupBuffer() {
 
 	m_cube->setup();
 	m_checkeredFloor->setup();
+	m_object->setup();
 	
 }
 
