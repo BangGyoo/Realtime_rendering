@@ -21,7 +21,7 @@ void MyGlWindow::initialize()
 {
 	m_cube = new ColorCube();
 	m_checkeredFloor = new checkeredFloor(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(1.0f, 1.0f, 1.0f),-1.0f);
-	m_object = new Object("teapot.obj");
+	m_object = new Object("teapot_my.obj",glm::vec3(0,1,-0.1),0.1f);
 }
 
 MyGlWindow::MyGlWindow(int w, int h)

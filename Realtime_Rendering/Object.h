@@ -18,12 +18,15 @@ private:
 	GLuint vaoHandle;
 	GLuint vbo_obj_vertices, vbo_obj_colors;
 	GLuint ibo_obj_elements;
-	
+	float obj_size;
+	glm::vec3 obj_pos;
 
 	int loadObj();
 public:
-	Object(std::string fileName) {
+	Object(std::string fileName, glm::vec3 pos = { 0,0,0 } , float size = 1.0f) {
 		path = fileName;
+		obj_size = size;
+		obj_pos = pos;
 	}
 	void draw();
 	void setup();

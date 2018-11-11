@@ -41,7 +41,7 @@ int Object::loadObj() {
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 
 		aiVector3D tmp = mesh->mVertices[obj_elements[i]];
-		obj_vertices.push_back(glm::vec4(tmp.x - 3, tmp.y, tmp.z - 3, 1.0f));
+		obj_vertices.push_back(glm::vec4( obj_size * tmp.x +obj_pos.x , obj_size * tmp.y + obj_pos.y, obj_size * tmp.z + obj_pos.z, 1.0f));
 	}
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		obj_colors.push_back(glm::vec3(0.8f, 0.8f, 0.6f));
@@ -90,7 +90,7 @@ void Object::setup()  //Call from constructor
 
 	glGenBuffers(1, &ibo_obj_elements);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_obj_elements);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (unsigned int)size * 3, obj_elements, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (unsigned int)size * 6, obj_elements, GL_STATIC_DRAW);
 	
 	glBindVertexArray(0);		// vao종료, 해당 함수에 0을 넣으면 종료 unbind 된다.
 	
