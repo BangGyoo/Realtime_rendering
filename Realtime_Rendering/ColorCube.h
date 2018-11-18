@@ -15,6 +15,7 @@ private:
 
 	GLuint vaoHandle;
 	GLuint vbo_cube_vertices, vbo_cube_colors;
+	GLuint vbo_cube_normals;
 	GLuint ibo_cube_elements;
 
 public:

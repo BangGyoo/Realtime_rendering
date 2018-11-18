@@ -130,10 +130,7 @@ int main()
 
 	glfwSwapInterval(1);	//vsync. v싱크 만들어주는거 아무튼 좋음
 
-	if (GL_VERSION != 0x1F02) {
-		printf("not same version");
-	}
-	else printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+	printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 	// 가급적이면 printf 쓰지마라 속도 犬느림
 
 	glfwSetWindowSizeCallback(window, window_resize_callback);  //등록
@@ -152,6 +149,20 @@ int main()
 	{     //////////////////////////////
 
 		
+		static float x = 0;
+		if (x < 1.0f) {
+			glClearColor(x, x, x, 1.0);
+			x += 0.001f;
+		}
+		else x = 0;
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// 버퍼 클리어
+															// 컬러버퍼는 버퍼는 2차원 머리(?) 800 * 800 컬러는 셀하나 컬러저장
+															// 마스킹 버퍼도 있지만 잘 사용하진 않는다.
+															// 댑스버퍼는 가까운 오브젝트 거리값을 측정하는 비트플래그
+															// 디폴트 값은 따로 있을까
+
+		glViewport(0, 0, win->m_width, win->m_height);	// 좌하단으로 그림 , 이유는 모름 ㅋ
+												// 쉐이더 호출해서 사용
 
 		// 뭔가 해줌
 		win->draw();

@@ -20,8 +20,8 @@ glm::mat4 perspective(float fovy, float aspect, float near, float far) {
 void MyGlWindow::initialize()
 {
 	m_cube = new ColorCube();
-	m_checkeredFloor = new checkeredFloor(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(1.0f, 1.0f, 1.0f),-1.0f);
-	m_object = new Object("teapot_my.obj",glm::vec3(0,1,-0.1),0.1f);
+	//m_checkeredFloor = new checkeredFloor(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(1.0f, 1.0f, 1.0f),-1.0f);
+	//m_object = new Object("teapot_my.obj",glm::vec3(0,1,-0.1),0.1f);
 }
 
 MyGlWindow::MyGlWindow(int w, int h)
@@ -36,7 +36,7 @@ MyGlWindow::MyGlWindow(int w, int h)
 	
 
 	float aspect = (w / (float)h);
-	m_viewer = new Viewer(viewPoint, viewCenter, upVector, 60.0f, aspect);
+	m_viewer = new Viewer(viewPoint, viewCenter, upVector, 50.0f, aspect);
 
 
 
@@ -52,41 +52,44 @@ void MyGlWindow::draw() {
 	glm::vec3 up = m_viewer->getUpVector();
 	glm::mat4 view = glm::lookAt(eye, look, up);
 
-
 	glm::mat4 projection = perspective(m_viewer->getFieldOfView(),
-		m_viewer->getAspectRatio(), 0.01f, 50.0f);  //projection matrix
+		m_viewer->getAspectRatio(), 0.01f, 500.0f);  //projection matrix
 	glm::mat4 model(1.0);
-
-	static float x=0;
-	if (x < 1.0f) {
-		glClearColor(x, x, x, 1.0);
-		x += 0.001f;
-	}
-	else x = 0;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// 버퍼 클리어
-								// 컬러버퍼는 버퍼는 2차원 머리(?) 800 * 800 컬러는 셀하나 컬러저장
-								// 마스킹 버퍼도 있지만 잘 사용하진 않는다.
-								// 댑스버퍼는 가까운 오브젝트 거리값을 측정하는 비트플래그
-								// 디폴트 값은 따로 있을까
-
-	glViewport(0, 0, m_width, m_height);	// 좌하단으로 그림 , 이유는 모름 ㅋ
-	// 쉐이더 호출해서 사용
-	shaderProgram->use();
-										// triangle쓰면 마지막 버텍스와 첫번째 이어준다!
-										// GL_TRIANGLES로 하면 사각형 그릴때 2개의 삼각형 6개의 vertex를 지정해야함
-										// GL_STRIP는 자동으로 이어준다. 4개의 vertex만 줘도 됨
+	////////////////////////// ModelView matrix		/////////////
+	glm::mat4 modelview = view * model;
+	glm::mat4 inverseModelView = glm::inverse(modelview);
+	glm::mat3 normalMatrix = glm::mat3(glm::transpose(inverseModelView));
 
 	
-	
-
 	mvp = projection * view * model;
 
-	glUniformMatrix4fv(shaderProgram->uniform("mvp"),
+	glm::vec4 lightPos(50, 50, 50, 1);
+	glm::vec3 Kd(1, 1, 0);
+	glm::vec3 Id(1, 1, 0);
+
+
+	shaderProgram->use();
+	
+	glUniform4fv(shaderProgram->uniform("LightLocation"),
+		1, glm::value_ptr(lightPos));
+	glUniform3fv(shaderProgram->uniform("Kd"),
+		1, glm::value_ptr(Kd));
+	glUniform3fv(shaderProgram->uniform("Id"),
+		1, glm::value_ptr(Id));
+	
+	glUniformMatrix4fv(shaderProgram->uniform("ModelViewMatrix"),
+		1, GL_FALSE, glm::value_ptr(modelview));  //modelView
+	glUniformMatrix3fv(shaderProgram->uniform("NormalMatrix"),
+		1, GL_FALSE, glm::value_ptr(normalMatrix));  //normalMatrix
+
+	glUniformMatrix4fv(shaderProgram->uniform("MVP"),
 		1, GL_FALSE, glm::value_ptr(mvp));
 	
-	if (m_checkeredFloor) m_checkeredFloor->draw();
+
+
+	//if (m_checkeredFloor) m_checkeredFloor->draw();
 	if (m_cube) m_cube->draw();
-	if (m_object) m_object->draw();
+	//if (m_object) m_object->draw();
 	
 	shaderProgram->disable();
 
@@ -101,13 +104,15 @@ void MyGlWindow::setupBuffer() {
 	shaderProgram = new ShaderProgram();
 	shaderProgram->initFromFiles("simple.vert", "simple.frag");
 	
-	
-	shaderProgram->addUniform("mvp");
-	
-
+	shaderProgram->addUniform("LightLocation");
+	shaderProgram->addUniform("Kd");
+	shaderProgram->addUniform("Id");
+	shaderProgram->addUniform("ModelViewMatrix");
+	shaderProgram->addUniform("NormalMatrix");
+	shaderProgram->addUniform("MVP");
 	m_cube->setup();
-	m_checkeredFloor->setup();
-	m_object->setup();
+	//m_checkeredFloor->setup();
+	//m_object->setup();
 	
 }
 
