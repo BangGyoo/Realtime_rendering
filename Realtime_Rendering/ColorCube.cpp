@@ -89,7 +89,6 @@ void ColorCube::setup()  //Call from constructor
 
 	glBindVertexArray(0);		// vao종료, 해당 함수에 0을 넣으면 종료 unbind 된다.
 
-	draw();
 
 }
 

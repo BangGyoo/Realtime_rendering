@@ -9,6 +9,7 @@
 #include "checkeredFloor.h"
 #include "Object.h"
 #include "Viewer.h"
+#include "Sphere.h"
 #include "glm/gtc/type_ptr.hpp"
 
 
@@ -25,6 +26,7 @@ public:
 	checkeredFloor *m_checkeredFloor;
 	Object *m_object;
 	Viewer *m_viewer;
+	Sphere *m_Sphere;
 	glm::mat4 mvp;
 	void setupBuffer();
 	void initialize();

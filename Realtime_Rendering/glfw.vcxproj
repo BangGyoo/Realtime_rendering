@@ -156,6 +156,7 @@
     <ClCompile Include="MyGlWindow.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,10 +165,13 @@
     <ClInclude Include="Loader.h" />
     <ClInclude Include="MyGlWindow.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Viewer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\Downloads\glfw\glfw\glfw.vcxproj" />
+    <None Include="noLight.frag" />
+    <None Include="noLight.vert" />
     <None Include="simple.frag" />
     <None Include="simple.vert" />
   </ItemGroup>
