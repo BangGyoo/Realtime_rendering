@@ -25,11 +25,11 @@ Sphere::~Sphere()
 
 
 Sphere::Sphere(float rad, GLuint sl, GLuint st) :
-radius(rad), slices(sl), stacks(st)
+	radius(rad), slices(sl), stacks(st)
 {
 
 
-	
+
 
 	nVerts = (slices + 1) * (stacks + 1);
 	elements = (slices * 2 * (stacks - 1)) * 3;
@@ -37,20 +37,20 @@ radius(rad), slices(sl), stacks(st)
 	// Verts
 	float *v = new float[3 * nVerts];
 	// Normals
-	float * n = new float[3 * nVerts];  
+	float * n = new float[3 * nVerts];
 	// Tex coords
 	float * tex = new float[2 * nVerts];    //we don't use it now
-	// Index
+											// Index
 	unsigned int * el = new unsigned int[elements];  //index
 
-	// Generate the vertex data
+													 // Generate the vertex data
 	generateVerts(v, n, tex, el);
-	
+
 	for (int i = 0; i < elements; i++) {
-		sphere_vertices.push_back(glm::vec4(v[3 *el[i]]/3,v[3*el[i]+1]/3+2,v[3*el[i]+2]/3,1.0f));
+		sphere_vertices.push_back(glm::vec4(v[3 * el[i]] / 3, v[3 * el[i] + 1] / 3 + 2, v[3 * el[i] + 2] / 3, 1.0f));
 	}
 	for (int i = 0; i < elements; i++) {
-		sphere_normals.push_back(glm::vec3(n[3*el[i]], n[3*el[i] + 1], n[3*el[i] + 2]));
+		sphere_normals.push_back(glm::vec3(n[3 * el[i]], n[3 * el[i] + 1], n[3 * el[i] + 2]));
 	}
 
 	//create vao, vbo and ibo here... (We didn't use std::vector here...)
@@ -63,7 +63,7 @@ radius(rad), slices(sl), stacks(st)
 
 }
 
-void Sphere::draw() 
+void Sphere::draw()
 {
 	//glBindVertexArray(vaoHandle);
 	//int size;
@@ -73,7 +73,7 @@ void Sphere::draw()
 	int size;
 	glBindVertexArray(vaoHandle);
 	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-	glDrawArrays(GL_TRIANGLES, 0, size);
+	glDrawArrays(GL_TRIANGLES, 0, size*4);
 }
 
 void Sphere::generateVerts(float * verts, float * norms, float * tex,
@@ -175,8 +175,7 @@ void Sphere::setup() {
 
 }
 
-int Sphere::getVertexArrayHandle() 
+int Sphere::getVertexArrayHandle()
 {
 	return this->vaoHandle;
 }
-
