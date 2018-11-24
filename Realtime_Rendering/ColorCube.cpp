@@ -35,7 +35,7 @@ void ColorCube::setup()  //Call from constructor
 
 	for (int i = 0; i < 36; i++) {
 		cube_vertices.push_back(
-			glm::vec4(cube_vertice[3*cube_elements[i]],
+			glm::vec4(cube_vertice[3*cube_elements[i]] -3.0f,
 						cube_vertice[3*cube_elements[i]+1],
 						cube_vertice[3*cube_elements[i]+2], 1.0f));
 	}

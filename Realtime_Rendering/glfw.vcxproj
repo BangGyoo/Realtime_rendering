@@ -153,19 +153,24 @@
   <ItemGroup>
     <ClCompile Include="checkeredFloor.cpp" />
     <ClCompile Include="ColorCube.cpp" />
+    <ClCompile Include="global.cpp" />
     <ClCompile Include="MyGlWindow.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="vboteapot.cpp" />
     <ClCompile Include="Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="checkeredFloor.h" />
     <ClInclude Include="ColorCube.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="MyGlWindow.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="teapotdata.h" />
+    <ClInclude Include="vboteapot.h" />
     <ClInclude Include="Viewer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +179,8 @@
     <None Include="noLight.vert" />
     <None Include="simple.frag" />
     <None Include="simple.vert" />
+    <None Include="teapot.frag" />
+    <None Include="teapot.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

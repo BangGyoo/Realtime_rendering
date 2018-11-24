@@ -11,6 +11,9 @@
 #include "Viewer.h"
 #include "Sphere.h"
 #include "glm/gtc/type_ptr.hpp"
+#include "vboteapot.h"
+#include "teapotdata.h"
+
 
 
 
@@ -27,6 +30,7 @@ public:
 	Object *m_object;
 	Viewer *m_viewer;
 	Sphere *m_Sphere;
+	VBOTeapot *m_teapot;
 	glm::mat4 mvp;
 	void setupBuffer();
 	void initialize();
