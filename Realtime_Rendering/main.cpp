@@ -1,7 +1,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/glm.hpp>
-#include <glm/gtx/string_cast.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtx/string_cast.hpp"
 #include <iostream>
+
 
 glm::mat4 LookAt(glm::vec3 campos, glm::vec3 look, glm::vec3 up) {
 
@@ -119,14 +120,13 @@ namespace test{
 
 
 int main() {
-	test::CalcMixFunc();
 
 	system("pause");
 	return 0;
-	//glm::vec3 cameraPosition(5), cameraTarget(0);
-	//glm::vec3 upVector(0,1,0);
+	glm::vec3 cameraPosition(5), cameraTarget(0);
+	glm::vec3 upVector(0,1,0);
 
-	//glm::mat4 result = LookAt(cameraPosition, cameraTarget, upVector);
+	glm::mat4 result = LookAt(cameraPosition, cameraTarget, upVector);
 /*
 	float W = 780;
 	float H = 750;

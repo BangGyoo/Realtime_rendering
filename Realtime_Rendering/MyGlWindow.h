@@ -13,6 +13,7 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "vboteapot.h"
 #include "teapotdata.h"
+#include "global.h"
 
 
 

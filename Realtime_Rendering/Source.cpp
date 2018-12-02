@@ -1,4 +1,7 @@
 #include "MyGlWindow.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -63,8 +66,9 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 }
 void mouseDragging(double width, double height)
 {
-
-
+	ImGuiIO& io = ImGui::GetIO();
+	
+	if(!io.WantCaptureMouse){
 	if (lbutton_down) {
 		float fractionChangeX = static_cast<float>(cx - m_lastMouseX) / static_cast<float>(width);
 		float fractionChangeY = static_cast<float>(m_lastMouseY - cy) / static_cast<float>(height);
@@ -79,6 +83,7 @@ void mouseDragging(double width, double height)
 		float fractionChangeX = static_cast<float>(cx - m_lastMouseX) / static_cast<float>(width);
 		float fractionChangeY = static_cast<float>(m_lastMouseY - cy) / static_cast<float>(height);
 		win->m_viewer->translate(-fractionChangeX, -fractionChangeY, 1);
+	}
 	}
 	m_lastMouseX = cx;
 	m_lastMouseY = cy;
@@ -116,6 +121,21 @@ int main()
 		return -1;
 	}
 
+	// Setup Dear ImGui binding
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	const char* glsl_version = "#version 430";
+
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init(glsl_version);
+
+	//ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+	ImGui::StyleColorsLight();
+
+
 
 	glfwMakeContextCurrent(window);
 	/* Make the window's context current */
@@ -144,13 +164,14 @@ int main()
 	
 	win = new MyGlWindow(width,height);
 	glEnable(GL_DEPTH_TEST);
+	bool show_test_window = false;
 
 	while (!glfwWindowShouldClose(window))
 	{     //////////////////////////////
 
 		
 
-		glClearColor(0.2, 0.2, 0.2, 1.0);
+		
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// 버퍼 클리어
 															// 컬러버퍼는 버퍼는 2차원 머리(?) 800 * 800 컬러는 셀하나 컬러저장
@@ -160,11 +181,19 @@ int main()
 
 		glViewport(0, 0, win->m_width, win->m_height);	// 좌하단으로 그림 , 이유는 모름 ㅋ
 												// 쉐이더 호출해서 사용
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		///////////////////
+		ImGui::ShowDemoWindow(&show_test_window);
+
+
 
 		// 뭔가 해줌
 		win->draw();
 
-
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 		/* Poll for and process events */
@@ -173,6 +202,9 @@ int main()
 		mouseDragging(win->m_width, win->m_height);
 
 	}
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 
 	glfwDestroyWindow(window);

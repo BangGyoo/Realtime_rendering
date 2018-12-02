@@ -1,10 +1,16 @@
 
 #include "MyGlWindow.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 ShaderProgram *shaderProgram;
 ShaderProgram *noLight;
 ShaderProgram *teapot;
-
+float objColor[3] = { 0.0f,0.0f,0.0f };
+float background[3] = { 0.0f,0.0f,0.0f };
+float LightLocation[3] = { 0.0,0.0,0.0f };
+float volume = 0.7f;
 static float DEFAULT_VIEW_POINT[3] = { 5, 5, 5 };
 static float DEFAULT_VIEW_CENTER[3] = { 0, 0, 0 };
 static float DEFAULT_UP_VECTOR[3] = { 0, 1, 0 };
@@ -60,6 +66,23 @@ glm::mat4 inverseModelView; glm::mat4 teapotInverseModelView;
 glm::mat3 normalMatrix; glm::mat3 taepotNormalMat;
 
 void MyGlWindow::draw() {
+	if (ImGui::Begin("First Window"))
+	{
+		
+		static bool mute = true;
+		ImGui::SetWindowSize(ImVec2(300, 300));
+		ImGui::Text("Setting");
+		ImGui::SliderFloat("Volume", &volume, 0.0f, 50.0f);
+		//ImGui::
+		ImGui::ColorEdit3("objColor", objColor);
+		ImGui::ColorEdit3("backgorund Color", background);
+		ImGui::Button("Yes");
+		ImGui::Button("No");
+		ImGui::End();
+
+	}
+	glClearColor(background[0], background[1], background[2], 1.0);
+
 	eye = m_viewer->getViewPoint();
 	look = m_viewer->getViewCenter();
 	up = m_viewer->getUpVector();
@@ -68,8 +91,8 @@ void MyGlWindow::draw() {
 	projection = perspective(m_viewer->getFieldOfView(),
 		m_viewer->getAspectRatio(), 0.01f, 500.0f);  //projection matrix
 	glm::mat4 model(1.0);
-	glm::mat4 teapotModel = glm::translate(glm::mat4(1.f),glm::vec3(0,-1,0))
-		* glm::scale(glm::mat4(1.f),glm::vec3(0.5,0.5,0.5))
+	glm::mat4 teapotModel = glm::translate(glm::mat4(1.f),glm::vec3(0,-1,3))
+		* glm::scale(glm::mat4(1.f),glm::vec3(1.0f, 1.0f, 1.0f))
 		* glm::rotate(model, 90.0f, vec3(-1, -1, -1));
 
 	////////////////////////// ModelView matrix		/////////////
@@ -80,10 +103,11 @@ void MyGlWindow::draw() {
 	
 	mvp = projection * view * model;
 
-	glm::vec4 lightPos(50, 50, 50, 1);
-	glm::vec3 Kd(0.7, 0.7, 0.0);
+	glm::vec4 lightPos(50, 50, volume, 1);
+	glm::vec3 Kd(objColor[0], objColor[1], objColor[2]);
 	glm::vec3 Id(0.9, 0.9, 0.9);
 
+	lightPos = view*lightPos;
 
 	shaderProgram->use();
 	

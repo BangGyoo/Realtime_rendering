@@ -36,7 +36,7 @@ VBOTeapot::VBOTeapot(int grid, mat4 lidTransform)
 	//teapot_elements.resize(faces*6);
 	
 	for (int i = 0; i < verts * 3; i+=3) teapot_vertices.push_back(lidTransform * glm::vec4(v[i],v[i+1],v[i+2],1.0f));
-	for (int i = 0; i < verts * 3; i+=3) teapot_normals.push_back(glm::vec3(v[i], v[i + 1], v[i + 2]));
+	for (int i = 0; i < verts * 3; i+=3) teapot_normals.push_back(glm::vec3(n[i], n[i + 1], n[i + 2]));
 	for (int i = 0; i < faces * 6; i++) teapot_elements.push_back(el[i]);
 
 	//create vao, vbos, ibo here
@@ -311,7 +311,7 @@ void VBOTeapot::draw() const
 	glBindVertexArray(vaoHandle);
 	int size;
 	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-	glDrawElements(GL_TRIANGLES, size*4 / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, size / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	/*int size;
 	glBindVertexArray(vaoHandle);
