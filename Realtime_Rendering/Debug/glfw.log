@@ -1,3 +1,21 @@
 ﻿d:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 중간 디렉터리(Debug\)에 다른 프로젝트(Realtime_Rendering.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+  Mesh.cpp
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.h(20): warning C4091: 'static ': 변수를 선언하지 않으면 'Mesh::MeshEntry::BUFFERS' 왼쪽은 무시됩니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(37): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(56): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(74): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(93): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(197): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(209): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.cpp(234): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   MyGlWindow.cpp
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.h(20): warning C4091: 'static ': 변수를 선언하지 않으면 'Mesh::MeshEntry::BUFFERS' 왼쪽은 무시됩니다.
+  Source.cpp
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.h(20): warning C4091: 'static ': 변수를 선언하지 않으면 'Mesh::MeshEntry::BUFFERS' 왼쪽은 무시됩니다.
+  checkeredFloor.cpp
+  global.cpp
+c:\users\bangg\documents\study_gyoo\실시간렌더링 과제\4\realtime_rendering\realtime_rendering\mesh.h(20): warning C4091: 'static ': 변수를 선언하지 않으면 'Mesh::MeshEntry::BUFFERS' 왼쪽은 무시됩니다.
+  코드를 생성하고 있습니다...
+  LINK : C:\Users\BangG\Documents\Study_Gyoo\실시간렌더링 과제\4\Realtime_rendering\Debug\glfw.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+LINK : warning LNK4098: 'MSVCRT' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
   glfw.vcxproj -> C:\Users\BangG\Documents\Study_Gyoo\실시간렌더링 과제\4\Realtime_rendering\Debug\glfw.exe

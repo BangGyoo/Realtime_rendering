@@ -105,5 +105,5 @@ void checkeredFloor::draw()
 	int size;
 	glBindVertexArray(vaoHandle);
 	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-	glDrawArrays(GL_TRIANGLES, 0, size);
+	glDrawArrays(GL_TRIANGLES, 0, 20000);
 }

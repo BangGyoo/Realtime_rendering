@@ -7,6 +7,7 @@
 ShaderProgram *shaderProgram;
 ShaderProgram *noLight;
 ShaderProgram *teapot;
+ShaderProgram *mesh;
 float objColor[3] = { 0.0f,0.0f,0.0f };
 float background[3] = { 0.0f,0.0f,0.0f };
 float LightLocation[3] = { 0.0,0.0,0.0f };
@@ -27,10 +28,10 @@ glm::mat4 perspective(float fovy, float aspect, float near, float far) {
 
 void MyGlWindow::initialize()
 {
-	m_cube = new ColorCube();
+//	m_cube = new ColorCube();
 	m_checkeredFloor = new checkeredFloor(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(1.0f, 1.0f, 1.0f),-1.0f);
-	//m_object = new Object("teapot_my.obj",glm::vec3(0,1,-0.1),0.1f);
-	m_Sphere = new Sphere(3.0f, 60, 60);
+//	//m_object = new Object("teapot_my.obj",glm::vec3(0,1,-0.1),0.1f);
+//	m_Sphere = new Sphere(3.0f, 60, 60);
 	m_teapot = new VBOTeapot(64,glm::mat4(1.0f));
 }
 
@@ -109,29 +110,29 @@ void MyGlWindow::draw() {
 
 	lightPos = view*lightPos;
 
-	shaderProgram->use();
-	
-	
-	glUniform4fv(shaderProgram->uniform("LightLocation"),
-		1, glm::value_ptr(lightPos));
-	glUniform3fv(shaderProgram->uniform("Kd"),
-		1, glm::value_ptr(Kd));
-	glUniform3fv(shaderProgram->uniform("Id"),
-		1, glm::value_ptr(Id));
-	
-	glUniformMatrix4fv(shaderProgram->uniform("ModelViewMatrix"),
-		1, GL_FALSE, glm::value_ptr(modelview));  //modelView
-	glUniformMatrix3fv(shaderProgram->uniform("NormalMatrix"),
-		1, GL_FALSE, glm::value_ptr(normalMatrix));  //normalMatrix
+	//shaderProgram->use();
+	//
+	//
+	//glUniform4fv(shaderProgram->uniform("LightLocation"),
+	//	1, glm::value_ptr(lightPos));
+	//glUniform3fv(shaderProgram->uniform("Kd"),
+	//	1, glm::value_ptr(Kd));
+	//glUniform3fv(shaderProgram->uniform("Id"),
+	//	1, glm::value_ptr(Id));
+	//
+	//glUniformMatrix4fv(shaderProgram->uniform("ModelViewMatrix"),
+	//	1, GL_FALSE, glm::value_ptr(modelview));  //modelView
+	//glUniformMatrix3fv(shaderProgram->uniform("NormalMatrix"),
+	//	1, GL_FALSE, glm::value_ptr(normalMatrix));  //normalMatrix
 
-	glUniformMatrix4fv(shaderProgram->uniform("MVP"),
-		1, GL_FALSE, glm::value_ptr(mvp));
-	
-	if (m_Sphere) m_Sphere->draw();
-	if (m_cube) m_cube->draw();
+	//glUniformMatrix4fv(shaderProgram->uniform("MVP"),
+	//	1, GL_FALSE, glm::value_ptr(mvp));
+	//
+	//if (m_Sphere) m_Sphere->draw();
+	//if (m_cube) m_cube->draw();
 
-	shaderProgram->disable();
-	
+	//shaderProgram->disable();
+	//
 	noLight->use();
 
 	glUniformMatrix4fv(noLight->uniform("MVP"),
@@ -162,18 +163,24 @@ void MyGlWindow::draw() {
 	teapot->disable();
 
 	
+	mvp = projection * view * glm::translate(glm::mat4(1.0f), glm::vec3(0, -1, -3)) * model;
+	if (m_dragon) m_dragon->draw(modelview, inverseModelView, normalMatrix, mvp);
+
 }					
 
 
 void MyGlWindow::setupBuffer() {		
 
-	shaderProgram = new ShaderProgram();
+	//shaderProgram = new ShaderProgram();
 	noLight = new ShaderProgram();
 	teapot = new ShaderProgram();
-	shaderProgram->initFromFiles("simple.vert", "simple.frag");
+	mesh = new ShaderProgram();
+	//shaderProgram->initFromFiles("simple.vert", "simple.frag");
 	noLight->initFromFiles("noLight.vert", "noLight.frag");
 	teapot->initFromFiles("teapot.vert", "teapot.frag");
-
+	mesh->initFromFiles("mesh.vert", "mesh.frag");
+	noLight->addUniform("MVP");
+/*
 	shaderProgram->addUniform("LightLocation");
 	shaderProgram->addUniform("Kd");
 	shaderProgram->addUniform("Id");
@@ -181,21 +188,23 @@ void MyGlWindow::setupBuffer() {
 	shaderProgram->addUniform("NormalMatrix");
 	shaderProgram->addUniform("MVP");
 
-	noLight->addUniform("MVP");
-
+*/
 	teapot->addUniform("LightLocation");
 	teapot->addUniform("Kd");
 	teapot->addUniform("Id");
 	teapot->addUniform("ModelViewMatrix");
 	teapot->addUniform("NormalMatrix");
 	teapot->addUniform("MVP");
-
-	
+	/*
 	m_cube->setup();
 	m_Sphere->setup();
+	
+	
+*/
 	m_checkeredFloor->setup();
 	m_teapot->setup();
-	//m_object->setup();
+	m_dragon = new Mesh("dragon/dragon.obj", mesh);
+
 	
 }
 

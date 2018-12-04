@@ -14,7 +14,7 @@
 #include "vboteapot.h"
 #include "teapotdata.h"
 #include "global.h"
-
+#include "Mesh.h"
 
 
 
@@ -32,6 +32,7 @@ public:
 	Viewer *m_viewer;
 	Sphere *m_Sphere;
 	VBOTeapot *m_teapot;
+	Mesh *m_dragon;
 	glm::mat4 mvp;
 	void setupBuffer();
 	void initialize();

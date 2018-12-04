@@ -7,8 +7,6 @@ layout(location = 1) in vec3 VertexNormal;
 out vec4 Position;
 out vec3 Normal;
 
-
-
 uniform mat4 MVP;
 
 void main(){

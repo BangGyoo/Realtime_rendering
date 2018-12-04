@@ -60,6 +60,9 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -116,6 +119,9 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="simple.frag">
@@ -135,6 +141,12 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="teapot.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="mesh.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="mesh.vert">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
